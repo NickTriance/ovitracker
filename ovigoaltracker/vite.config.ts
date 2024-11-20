@@ -7,6 +7,15 @@ import vueDevTools from 'vite-plugin-vue-devtools'
 
 // https://vite.dev/config/
 export default defineConfig({
+  server: {
+    proxy: {
+      '/api' :{
+        target: 'https://api-web.nhle.com',
+        changeOrigin: true,
+        rewrite: (path) => path.replace (/^\/api/, '')
+      }
+    }
+  },
   plugins: [
     vue(),
     vueJsx(),

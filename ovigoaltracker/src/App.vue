@@ -1,6 +1,7 @@
 <script setup lang="ts">
 import { RouterLink, RouterView } from 'vue-router'
 import HelloWorld from './components/HelloWorld.vue'
+import Tracker from './components/Tracker.vue'
 </script>
 
 <template>
@@ -9,10 +10,7 @@ import HelloWorld from './components/HelloWorld.vue'
 
     <div class="wrapper">
       <HelloWorld msg="Ovi's goal tracker!" />
-
-      <nav>
-        <RouterLink to="/">Home</RouterLink>
-      </nav>
+      <Tracker />
     </div>
   </header>
 
