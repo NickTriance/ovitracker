@@ -5,6 +5,8 @@
         <div v-else-if="error">Fucky-wucky UwU: {{ error }}</div>
         <div v-else>
             <p>goals: {{ goals }}</p>
+            <p>goals to tie: {{ goalsToTie }}</p>
+            <p>goalsToBreak: {{ goalsToBreak }}</p>
         </div>
     </div>
 </template>
@@ -19,6 +21,8 @@ export default {
         const goals = ref(null);
         const loading = ref(true);
         const error = ref(null);
+        const goalsToTie = ref(null)
+        const goalsToBreak = ref(null)
 
         const fetchGoals = async () => {
             try {
@@ -33,7 +37,8 @@ export default {
                 console.log(data);
                 const careerRegSeason = data.careerTotals?.regularSeason;
                 goals.value = careerRegSeason.goals ?? 0;
-                
+                goalsToTie.value = 894 - goals.value;
+                goalsToBreak.value = goalsToTie.value + 1;
                      
             } catch (e) {
                 error.value = e.message;
@@ -44,7 +49,7 @@ export default {
 
         onMounted(fetchGoals);
 
-        return {goals, loading, error };
+        return {goals, loading, error, goalsToTie, goalsToBreak };
     },
 };
 </script>
