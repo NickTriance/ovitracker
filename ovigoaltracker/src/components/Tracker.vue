@@ -32,7 +32,6 @@ export default {
         const fetchGoals = async () => {
             try {
                 // make the request to nhl api. We'll just hardcode this to go to ovi.
-                //const response = await fetch('https://api-web.nhle.com/v1/player/8471214/landing');
                 const response = await fetch('/api/v1/player/8471214/landing')
                 if (!response.ok) {
                     throw new Error('Failed to fetch data from NHL api');
@@ -40,23 +39,33 @@ export default {
 
                 const data = await response.json();
                 console.log(data);
-                //TODO: use last 5 games to calculate average scoring pace, and use that to estimate when the record will be broken. default to career average if he's on a drougt
                 const careerRegSeason = data.careerTotals?.regularSeason;
+
+                // Figure out his current goal scoring rate using data from his last 5 games
+                // This isn't super accurate, and is likely to vary wildly from game to game as
+                // his scoring rate changes, but it's fine for a rough ballpark.
+                // A better method would be to look at shooting rates and shooting percentages, 
+                // ideally broken down by opponent, and utilize that to estimate how many goals 
+                // he will score in the upcoming games. This would be a good use case for
+                // machine learning. 
+
                 const last5Games = data.last5Games;
                 let goalsLast5Games = 0
                 for (let i = 0; i < last5Games.length; i++) {
                     goalsLast5Games += last5Games[i].goals;
                 }
-
                 if (goalsLast5Games != 0) {
                     currentScoringRate.value = goalsLast5Games / 5;
                 } else {
+                    // If he hasn't scored a goal in his last 5 games, we'll default to his career scoring rate.
                     currentScoringRate.value = careerRegSeason.goals / careerRegSeason.gamesPlayed;
                 }
 
                 goals.value = careerRegSeason.goals ?? 0;
                 goalsToTie.value = 894 - goals.value;
                 goalsToBreak.value = goalsToTie.value + 1;
+
+                // Round games up to the nearest whole game.
                 gamesToTie.value = Math.ceil(goalsToTie.value / currentScoringRate.value);
                 gamesToBreak.value = Math.ceil(goalsToBreak.value / currentScoringRate.value);
                      
