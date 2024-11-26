@@ -1,6 +1,7 @@
 <script setup lang="ts">
 import { RouterLink, RouterView } from 'vue-router'
 import HelloWorld from './components/HelloWorld.vue'
+//@ts-ignore
 import Tracker from './components/Tracker.vue'
 </script>
 

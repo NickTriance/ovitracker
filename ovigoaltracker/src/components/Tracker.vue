@@ -20,6 +20,7 @@ export default {
     name: 'App',
 
     setup() {
+
         const goals = ref(null);
         const loading = ref(true);
         const error = ref(null);
@@ -30,7 +31,9 @@ export default {
         const gamesToBreak = ref(null);
 
         const fetchGoals = async () => {
+            
             try {
+
                 // make the request to nhl api. We'll just hardcode this to go to ovi.
                 const response = await fetch('/api/v1/player/8471214/landing')
                 if (!response.ok) {
