@@ -8,7 +8,6 @@ import Tracker from './components/Tracker.vue'
     <img alt="Vue logo" class="logo" src="@/assets/logo.svg" width="125" height="125" />
 
     <div class="wrapper">
-      <HelloWorld msg="Ovi's goal tracker!" />
       <Tracker />
     </div>
   </header>

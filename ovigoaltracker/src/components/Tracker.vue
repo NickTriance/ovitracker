@@ -1,14 +1,19 @@
 <template>
     <div id="tracker">
-        <h1>Goals:</h1>
         <div v-if="loading">Loading...</div>
         <div v-else-if="error">Fucky-wucky UwU: {{ error }}</div>
         <div v-else>
-            <p>goals: {{ goals }}</p>
-            <p>goals to tie: {{ goalsToTie }}</p>
-            <p>goalsToBreak: {{ goalsToBreak }}</p>
-            <p>current scoring rate: {{ currentScoringRate }} goals per game</p>
-            <p>At his current pace, he should tie the record in {{ gamesToTie }} games, and break it in {{ gamesToBreak }} games.</p>
+            <div v-if="recordBroken">
+                <h1>Yes, Alex Ovechkin is currently the NHL's all time goals leader.</h1>
+                <h2>To date, he has scored {{ goals }} goals, which is {{ goalDelta }} more than Wayne Gretzky's 894.</h2>
+            </div>
+            <div v-else>
+                <h1>Nope, he hasn't broken it yet.</h1>
+                <h2>He's currently sitting at {{ goals }} career goals.</h2>
+                <p>He needs {{ goalDelta }} more goals to tie the record, and {{ goalsToBreak }} goals to break it.</p>
+                <p>Ovi is currently scoring at a pace of {{ currentScoringRate }} goals per game.</p>
+                <p>At his current pace, he should tie the record in {{ gamesToTie }} games, and break it in {{ gamesToBreak }} games.</p>
+            </div>
         </div>
     </div>
 </template>
@@ -24,11 +29,12 @@ export default {
         const goals = ref(null);
         const loading = ref(true);
         const error = ref(null);
-        const goalsToTie = ref(null)
+        const goalDelta = ref(null)
         const goalsToBreak = ref(null)
         const currentScoringRate = ref(null);
         const gamesToTie = ref(null);
         const gamesToBreak = ref(null);
+        const recordBroken = ref(null);
 
         const fetchGoals = async () => {
             
@@ -65,11 +71,12 @@ export default {
                 }
 
                 goals.value = careerRegSeason.goals ?? 0;
-                goalsToTie.value = 894 - goals.value;
-                goalsToBreak.value = goalsToTie.value + 1;
+                goalDelta.value = Math.abs(894 - goals.value); 
+                recordBroken.value = goals.value > 894;
+                goalsToBreak.value = goalDelta.value + 1;
 
                 // Round games up to the nearest whole game.
-                gamesToTie.value = Math.ceil(goalsToTie.value / currentScoringRate.value);
+                gamesToTie.value = Math.ceil(goalDelta.value / currentScoringRate.value);
                 gamesToBreak.value = Math.ceil(goalsToBreak.value / currentScoringRate.value);
                      
             } catch (e) {
@@ -81,7 +88,7 @@ export default {
 
         onMounted(fetchGoals);
 
-        return {goals, loading, error, goalsToTie, goalsToBreak, currentScoringRate, gamesToTie, gamesToBreak };
+        return {goals, loading, error, goalDelta, goalsToBreak, currentScoringRate, gamesToTie, gamesToBreak, recordBroken };
     },
 };
 </script>
