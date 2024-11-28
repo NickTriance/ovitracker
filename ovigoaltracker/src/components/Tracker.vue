@@ -1,22 +1,78 @@
 <template>
-    <div id="tracker">
+    <div id="tracker" class="tracker-container">
+        <h1 class="title">Has Ovi Broken the Goals Record?</h1>
         <div v-if="loading">Loading...</div>
         <div v-else-if="error">Fucky-wucky UwU: {{ error }}</div>
         <div v-else>
             <div v-if="recordBroken">
-                <h1>Yes, Alex Ovechkin is currently the NHL's all time goals leader.</h1>
-                <h2>To date, he has scored {{ goals }} goals, which is {{ goalDelta }} more than Wayne Gretzky's 894.</h2>
+                <h1 class="headline">Yes, Alex Ovechkin is currently the NHL's all time goals leader.</h1>
+                <h2 class="subheader">To date, he has scored {{ goals }} goals, which is {{ goalDelta }} more than Wayne Gretzky's 894.</h2>
             </div>
             <div v-else>
-                <h1>Nope, he hasn't broken it yet.</h1>
-                <h2>He's currently sitting at {{ goals }} career goals.</h2>
-                <p>He needs {{ goalDelta }} more goals to tie the record, and {{ goalsToBreak }} goals to break it.</p>
-                <p>Ovi is currently scoring at a pace of {{ currentScoringRate }} goals per game.</p>
-                <p>At his current pace, he should tie the record in {{ gamesToTie }} games, and break it in {{ gamesToBreak }} games.</p>
+                <h1 class="headline">Nope, he hasn't broken it yet.</h1>
+                <h2 class="subheader">He's currently sitting at {{ goals }} career goals.</h2>
+                <p class="details">He needs {{ goalDelta }} more goals to tie the record, and {{ goalsToBreak }} goals to break it.</p>
+                <p class="details">Ovi is currently scoring at a pace of {{ currentScoringRate }} goals per game.</p>
+                <p class="details">At his current pace, he should tie the record in {{ gamesToTie }} games, and break it in {{ gamesToBreak }} games.</p>
             </div>
         </div>
     </div>
 </template>
+
+<style scoped>
+.tracker-container {
+    display:flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+
+}
+
+.title {
+    font-family: 'Roboto Mono';
+    font-size: 3.5rem;
+    font-weight: bold;
+    margin-bottom: 0rem;
+    margin-top: 0rem;
+}
+
+.headline {
+    font-family: 'Roboto Mono';
+    margin-top: 0rem;
+    font-size: 2.5rem;
+    font-weight: bold;
+}
+
+.subheader {
+    font-family: 'Roboto Mono';
+    margin-top:0rem;
+    margin-bottom:0rem;
+    font-size: 1.8rem;
+    font-weight: bold;
+}
+.details {
+    font-family: 'Roboto Mono';
+    font-size: 1.2rem;
+    line-height: 1.6;
+    margin-bottom: 1rem;
+}
+
+/* Responsive scaling for different screen sizes */
+@media (max-width: 768px) {
+    .headline {
+        font-size: 2rem;
+    }
+
+    .subheadline {
+        font-size: 1.5rem;
+    }
+
+    .details {
+        font-size: 1rem;
+    }
+}
+</style>
 
 <script>
 import { ref, onMounted } from 'vue';
