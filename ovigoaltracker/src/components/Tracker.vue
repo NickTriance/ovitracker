@@ -7,13 +7,21 @@
             <div v-if="recordBroken">
                 <h1 class="headline">Yes, Alex Ovechkin is currently the NHL's all time goals leader.</h1>
                 <h2 class="subheader">To date, he has scored {{ goals }} goals, which is {{ goalDelta }} more than Wayne Gretzky's 894.</h2>
+                <div v-if="isActive">
+                    <p class="details">He's still playing in the NHL, and is scoring at a rate of {{ currentScoringRate }} goals per game.</p>
+                </div>
             </div>
             <div v-else>
                 <h1 class="headline">Nope, he hasn't broken it yet.</h1>
                 <h2 class="subheader">He's currently sitting at {{ goals }} career goals.</h2>
-                <p class="details">He needs {{ goalDelta }} more goals to tie the record, and {{ goalsToBreak }} goals to break it.</p>
-                <p class="details">Ovi is currently scoring at a pace of {{ currentScoringRate }} goals per game.</p>
-                <p class="details">At his current pace, he should tie the record in {{ gamesToTie }} games, and break it in {{ gamesToBreak }} games.</p>
+                <div v-if="isActive">
+                    <p class="details">He needs {{ goalDelta }} more goals to tie the record, and {{ goalsToBreak }} goals to break it.</p>
+                    <p class="details">Ovi is currently scoring at a pace of {{ currentScoringRate }} goals per game.</p>
+                    <p class="details">At his current pace, he should tie the record in {{ gamesToTie }} games, and break it in {{ gamesToBreak }} games.</p>
+                </div>
+                <div v-else>
+                    <p class="details">Ovechkin is not currently an active NHL player. He is currently {{ goalDelta }} goals short of Gretzky's record.</p>
+                </div>
             </div>
         </div>
     </div>
@@ -91,6 +99,7 @@ export default {
         const gamesToTie = ref(null);
         const gamesToBreak = ref(null);
         const recordBroken = ref(null);
+        const isActive = ref(null);
 
         const fetchGoals = async () => {
             
@@ -104,6 +113,7 @@ export default {
 
                 const data = await response.json();
                 console.log(data);
+                isActive.value = data.isActive;
                 const careerRegSeason = data.careerTotals?.regularSeason;
 
                 // Figure out his current goal scoring rate using data from his last 5 games
@@ -112,7 +122,7 @@ export default {
                 // A better method would be to look at shooting rates and shooting percentages, 
                 // ideally broken down by opponent, and utilize that to estimate how many goals 
                 // he will score in the upcoming games. This would be a good use case for
-                // machine learning. 
+                // machine learning, but is way beyond the scope of this project. 
 
                 const last5Games = data.last5Games;
                 let goalsLast5Games = 0
@@ -144,7 +154,7 @@ export default {
 
         onMounted(fetchGoals);
 
-        return {goals, loading, error, goalDelta, goalsToBreak, currentScoringRate, gamesToTie, gamesToBreak, recordBroken };
+        return {goals, loading, error, goalDelta, goalsToBreak, currentScoringRate, gamesToTie, gamesToBreak, recordBroken, isActive };
     },
 };
 </script>
