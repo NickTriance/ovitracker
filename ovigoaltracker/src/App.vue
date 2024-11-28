@@ -17,11 +17,6 @@ import Tracker from './components/Tracker.vue'
 </template>
 
 <style scoped>
-* {
-  margin:0;
-  padding: 0;
-  box-sizing: border-box;
-}
 
 .banner {
   width: 100%;
@@ -30,15 +25,15 @@ import Tracker from './components/Tracker.vue'
   background-size: cover;
   background-position: center;
   background-repeat: no-repeat;
-  display: flex;
-  align-items: center;
-  justify-content: center;
+  flex-shrink: 0;
 }
 
 .tracker-section {
   background-color: black;
   color: white;
   padding: 2rem;
-  min-height: 100vh;
+  height: calc(100vh - 35vh);
+  width: 100%;
+  overflow: hidden;
 }
 </style>
