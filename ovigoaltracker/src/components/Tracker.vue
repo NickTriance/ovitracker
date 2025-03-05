@@ -20,7 +20,7 @@
                         <p class="details">At his current pace, he should tie the record in {{ gamesToTie }} {{ gamesTiePlural }}, and break it in {{ gamesToBreak }} {{ gamesBreakPlural }}.</p>
                     </div>
                     <div v-else>
-                        <p class="details">Ovechkin is not currently an active NHL player. He is currently {{ goalDelta }} goals short of Gretzky's record.</p>
+                        <p class="details">Ovechkin is not currently an active NHL player. He is currently {{ goalDelta }} {{ goalDeltaPlural }} short of Gretzky's record.</p>
                     </div>
                 </div>
             </div>
