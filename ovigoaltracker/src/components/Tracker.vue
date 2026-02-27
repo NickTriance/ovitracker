@@ -2,7 +2,7 @@
         <div id="tracker" class="tracker-container">
             <h1 class="title">Has Ovi Broken the Goals Record?</h1>
             <div v-if="loading">Loading...</div>
-            <div v-else-if="error">Fucky-wucky UwU: {{ error }}</div>
+            <div v-else-if="error">Something went wrong: {{ error }}</div>
             <div v-else>
                 <div v-if="recordBroken">
                     <h1 class="headline">Yes, Alex Ovechkin is currently the NHL's all time goals leader.</h1>
